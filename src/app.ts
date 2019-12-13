@@ -5,6 +5,7 @@ import cors from 'cors'
 import schema from './schemas/schema';
 const app: Application = express();
 
+
 // connecting to mongodb
 connectDB();
 
