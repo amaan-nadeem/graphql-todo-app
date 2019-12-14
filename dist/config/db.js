@@ -8,15 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://amaan_nadeem:hello123@cluster0-0g0aa.mongodb.net/test?retryWrites=true&w=majority";
+const dotenv = __importStar(require("dotenv"));
+dotenv.config();
+const mongoose = require('mongoose');
+const MONGO_URI = process.env.MONGO_URI_PRODUCTION || process.env.MONGO_URI;
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect(MONGO_URI, {
+        yield mongoose.connect(MONGO_URI, {
             useNewUrlParser: true,
             useCreateIndex: true,
             useFindAndModify: false,

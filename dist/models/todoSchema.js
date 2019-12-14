@@ -19,7 +19,7 @@ const TodoSchema = new mongoose_1.Schema({
     },
     isCompleted: {
         type: Boolean,
-        required: true
+        default: false
     },
 });
 exports.default = mongoose_1.default.model("Todo", TodoSchema);

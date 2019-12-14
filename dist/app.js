@@ -4,22 +4,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const routes_1 = __importDefault(require("./routes/routes"));
+const express_graphql_1 = __importDefault(require("express-graphql"));
 const db_1 = __importDefault(require("./config/db"));
-const PORT = process.env.PORT || 5000;
+const cors_1 = __importDefault(require("cors"));
+const schema_1 = __importDefault(require("./schemas/schema"));
 const app = express_1.default();
-// connecting database 
+// connecting to mongodb
 db_1.default();
-// body parser 
-app.use(express_1.default.json());
-app.use('/api/v1/', routes_1.default);
-// 404 not found
-app.use((req, res) => res
-    .status(404)
-    .send({
-    message: `API route not found`,
-    route: `${req.hostname}${req.url}`
-}));
-app.listen(PORT, () => console.log(`Server is Listening on PORT ${PORT}`));
-// module.exports = app
-module.exports = app;
+// adding cors
+app.use(cors_1.default());
+// graphql setup 
+app.use('/graphql', (req, res) => {
+    try {
+        express_graphql_1.default({
+            schema: schema_1.default,
+            graphiql: true
+        });
+    }
+    catch (error) {
+        res.status(200).send({
+            message: "Internal Server Error",
+            success: false
+        });
+    }
+});
+const PORT = process.env.PORT || 7000;
+app.listen(PORT, () => console.log(`Listening request on Port ${PORT}`));
